@@ -5,7 +5,7 @@ resource "aws_cloudwatch_event_rule" "scheduled" {
 }
 
 resource "aws_cloudwatch_event_target" "scheduled" {
-  rule      = aws_cloudwatch_event_rule.scheduler.name
+  rule      = aws_cloudwatch_event_rule.scheduled.name
   target_id = "lambda"
   arn       = var.function.arn
 }
