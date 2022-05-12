@@ -1,19 +1,22 @@
-resource "aws_cloudwatch_event_rule" "scheduled" {
-  name                = "${var.function.name}-schedule"
-  description         = "Calls the lambda regularly"
-  schedule_expression = var.schedule
+resource "aws_cloudwatch_event_rule" "schedule" {
+  for_each = var.schedules
+  name                = "${var.function.name}-${each.key}-schedule"
+  description         = each.value.description != null ? "${each.value.description}" : "Invokes ${var.function.name} ${var.each.key}"
+  schedule_expression = each.schedule
 }
 
-resource "aws_cloudwatch_event_target" "scheduled" {
-  rule      = aws_cloudwatch_event_rule.scheduled.name
+resource "aws_cloudwatch_event_target" "schedule" {
+  for_each = var.schedules
+  rule      = aws_cloudwatch_event_rule.schedule[each.key].name
   target_id = "lambda"
   arn       = var.function.arn
 }
 
-resource "aws_lambda_permission" "scheduled" {
+resource "aws_lambda_permission" "schedule" {
+  for_each = var.schedules
   statement_id  = "AllowExecutionFromCloudWatch"
   action        = "lambda:InvokeFunction"
   function_name = var.function.name
   principal     = "events.amazonaws.com"
-  source_arn    = aws_cloudwatch_event_rule.scheduled.arn
+  source_arn    = aws_cloudwatch_event_rule.schedule[each.key].arn
 }

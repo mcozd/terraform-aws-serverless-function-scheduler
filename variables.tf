@@ -6,6 +6,9 @@ variable "function" {
   description = "Provides information about the function that should be called."
 }
 
-variable "schedule" {
-  type = string
+variable "schedules" {
+  type = map(object({
+    schedule = string
+    description = optional(string)
+  }))
 }
