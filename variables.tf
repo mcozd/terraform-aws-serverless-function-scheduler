@@ -1,5 +1,5 @@
 variable "function" {
-  type = object(any)
+  type = any
   description = "The lambda function that should be called based on the provided schedule."
 }
 
