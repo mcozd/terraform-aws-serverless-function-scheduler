@@ -1,9 +1,6 @@
 variable "function" {
-  type = object({
-      arn = string
-      name = string
-  })
-  description = "Provides information about the function that should be called."
+  type = object(any)
+  description = "The lambda function that should be called based on the provided schedule."
 }
 
 variable "schedules" {
@@ -11,4 +8,5 @@ variable "schedules" {
     schedule = string
     description = optional(string)
   }))
+  description = "Schedules when your function should be invoked. Uses the schedule expression syntax of cloudwatch event rules(cron or rate)."
 }
