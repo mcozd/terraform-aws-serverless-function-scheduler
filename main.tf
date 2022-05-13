@@ -1,6 +1,6 @@
 resource "aws_cloudwatch_event_rule" "schedule" {
   for_each = var.schedules
-  name                = "${var.function.name}-${each.key}-schedule"
+  name                = "${var.function.function_name}-${each.key}-schedule"
   description         = each.value.description != null ? each.value.description : "Invokes ${var.function.function_name} ${each.key}"
   schedule_expression = each.value.schedule
 }
