@@ -10,7 +10,7 @@ resource "aws_cloudwatch_event_target" "schedule" {
   rule      = aws_cloudwatch_event_rule.schedule[each.key].name
   target_id = "lambda"
   arn       = var.function.arn
-  input     = each.value.input != null ? each.value.input : null
+  input     = each.value.input
 }
 
 resource "aws_lambda_permission" "schedule" {
